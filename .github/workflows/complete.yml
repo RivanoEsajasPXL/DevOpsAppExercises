@@ -16,14 +16,15 @@ jobs:
         uses: actions/setup-node@v7.1.0
         with:
           node-version: '20'
+      - name: check unit tests & report
+        run: |
+          npm install --save-dev jest-junit
+          npm test -- --ci --coverage 
+        
 
       - name: Bundle code into Zipfile
         run: zip -r bundles.zip .
-
-      - name: check unit tests & report
-        run: |
-          npm install
-          npm test 
+        
           
       - name: Better Test Reports Action
         uses: mridang/action-test-reporter@v3.0.1
