@@ -13,7 +13,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v7
         with:
-          repository: https://github.com/PXL-2TIN-DevOps-Resources/calculator-app-finished
+          repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
 
       -
         name: Setup Node.js environment
