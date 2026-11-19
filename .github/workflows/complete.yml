@@ -23,3 +23,6 @@ jobs:
       - name: Install dependencies & test code
         run: npm install
       - run: npm test
+
+      - name: Better Test Reports Action
+        uses: mridang/action-test-reporter@v3.0.1
