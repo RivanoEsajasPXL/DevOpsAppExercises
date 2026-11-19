@@ -3,6 +3,9 @@ on:
   push:
       branches:
         - main
+  pull_request:          
+    branches: [main]
+  workflow_dispatch:
   
 
 jobs:
@@ -37,8 +40,6 @@ jobs:
   notify:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     if: always() && (github.ref == 'refs/heads/main' || github.event_name == 'pull_request')
     
     steps:
