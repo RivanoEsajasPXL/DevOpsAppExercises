@@ -1,0 +1,17 @@
+name: Files
+on: 
+  workflow_dispatch
+
+jobs:
+  Files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Make Directory
+        run: mkdir newDirectory
+
+      - name: Write to file
+        run:  echo hello world > newDirectory/newBestand
+
+      - name: Run output
+        run: cat newDirectory/newBestand
