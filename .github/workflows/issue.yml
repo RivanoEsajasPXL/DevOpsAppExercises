@@ -1,0 +1,12 @@
+name: Issues
+on: 
+  issues:
+    types: opened
+
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show logs of body & title new issue
+        run: echo "${{github.event.issue.title}}" && echo "${{github.event.issue.body}}"
