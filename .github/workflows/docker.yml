@@ -1,0 +1,57 @@
+name: NodeJS app
+on:
+  push:
+      branches:
+        - main
+  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v7
+        with:
+          repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
+
+      -
+        name: Setup Node.js environment
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '20'
+
+      -
+        name: check unit tests & report
+        run: |
+          npm install
+          npm test -- --coverage --coverageReporters=lcov
+          
+      - name: Better Test Reports Action
+        uses: mridang/action-test-reporter@v3.0.1
+        with:
+          name: Unit tests
+          coverage-path: coverage/lcov.info
+
+  notify:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: always() && (github.ref == 'refs/heads/main' || github.event_name == 'pull_request')
+    
+    steps:
+      - name: Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: "Build ${{ job.status }} op ${{ github.ref_name }}"
+
+      - name: PR Comment
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request }} --body "🤖 **Build status:** ${{ job.status }} (Bekijk de test coverage in de Action Summary)"
