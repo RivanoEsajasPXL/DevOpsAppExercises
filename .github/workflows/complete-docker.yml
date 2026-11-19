@@ -1,0 +1,46 @@
+name: Complete Example
+on:
+  push: 
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '20'
+
+      - name: Bundle code into Zipfile
+        run: zip -r bundles.zip .
+
+      - name: check unit tests & report
+        run: |
+          npm install
+          npm test -- --coverage --coverageReporters=lcov
+          
+      - name: Better Test Reports Action
+        uses: mridang/action-test-reporter@v3.0.1
+        with:
+          name: Unit tests
+          coverage-path: coverage/lcov.info
+
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          push: true
+          tags: user/app:latest
