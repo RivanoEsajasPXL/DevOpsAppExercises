@@ -20,6 +20,9 @@ jobs:
         run: |
           npm install --save-dev jest-junit
           npm test -- --ci --coverage coverageReporters=lcov --reporters=default --reporters=jest-junit
+          env:
+          JEST_JUNIT_OUTPUT_DIR: ./.out
+          JEST_JUNIT_OUTPUT_NAME: junit.xml
         
 
       - name: Bundle code into Zipfile
@@ -30,5 +33,5 @@ jobs:
         uses: mridang/action-test-reporter@v3.0.1
         with:
           name: Unit tests
-          results-path: junit.xml
+          results-path: ./.out/junit.xml
           coverage-path: coverage/lcov.info
