@@ -19,7 +19,7 @@ jobs:
       - name: check unit tests & report
         run: |
           npm install --save-dev jest-junit
-          npm test -- --ci --coverage 
+          npm test -- --ci --coverage coverageReporters=lcov --reporters=default --reporters=jest-junit
         
 
       - name: Bundle code into Zipfile
@@ -31,3 +31,4 @@ jobs:
         with:
           name: Unit tests
           results-path: junit.xml
+          coverage-path: coverage/lcov.info
