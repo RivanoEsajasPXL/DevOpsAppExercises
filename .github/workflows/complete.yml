@@ -20,11 +20,17 @@ jobs:
       - name: Bundle code into Zipfile
         run: zip -r bundles.zip .
 
-      - name: Install dependencies & test code
-        run: npm install
-      - run: npm test -- --coverage  --testLocationInResults
-      
-      - name: Publish test and coverage report
-        uses: mridang/action-test-reporter@v3
+      - name: check unit tests & report
+        run: |
+          npm install
+          npm install --save-dev jest-junit
+          npm test -- --ci --coverage --coverageReporters=lcov --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: ./.out
+          JEST_JUNIT_OUTPUT_NAME: junit.xml
+      - name: Better Test Reports Action
+        uses: mridang/action-test-reporter@v3.0.1
         with:
-          coverage-path: '**/cobertura-coverage.xml'
+          name: Unit tests
+          results-path: ./.out/junit.xml
+          coverage-path: coverage/lcov.info
