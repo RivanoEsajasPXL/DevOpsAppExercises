@@ -26,3 +26,6 @@ jobs:
 
       - name: Better Test Reports Action
         uses: mridang/action-test-reporter@v3.0.1
+        with:
+          name: tests
+          results-path: junit.xml
