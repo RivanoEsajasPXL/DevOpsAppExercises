@@ -50,8 +50,9 @@ jobs:
           title: "Build ${{ job.status }} op ${{ github.ref_name }}"
 
       - name: PR Comment
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr comment ${{ github.event.pull_request }} --body "🤖 **Build status:** ${{ job.status }} (Bekijk de test coverage in de Action Summary)"
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            🤖 **Build status:** ${{ job.status }}
+            Bekijk de test coverage in de [Action Summary](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).
