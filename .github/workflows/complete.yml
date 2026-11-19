@@ -25,9 +25,7 @@ jobs:
           npm install
           npm install --save-dev jest-junit
           npm test -- --ci --coverage --coverageReporters=lcov --reporters=default --reporters=jest-junit
-        env:
-          JEST_JUNIT_OUTPUT_DIR: ./.out
-          JEST_JUNIT_OUTPUT_NAME: junit.xml
+          
       - name: Better Test Reports Action
         uses: mridang/action-test-reporter@v3.0.1
         with:
