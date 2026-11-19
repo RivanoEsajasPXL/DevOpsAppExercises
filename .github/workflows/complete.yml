@@ -27,4 +27,4 @@ jobs:
       - name: Publish test and coverage report
         uses: mridang/action-test-reporter@v3
         with:
-          coverage-path: coverage/cobertura-coverage.xml
+          coverage-path: '**/cobertura-coverage.xml'
