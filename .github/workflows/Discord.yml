@@ -41,6 +41,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: always() && (github.ref == 'refs/heads/main' || github.event_name == 'pull_request')
+    permissions:
+      pull-requests: write
     
     steps:
       - name: Discord Notification
@@ -51,6 +53,7 @@ jobs:
           title: "Build ${{ job.status }} op ${{ github.ref_name }}"
 
       - name: PR Comment
+        if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
