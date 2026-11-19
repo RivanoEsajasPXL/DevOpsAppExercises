@@ -52,7 +52,7 @@ jobs:
       - name: PR Comment
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ github.event.number }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
             🤖 **Build status:** ${{ job.status }}
             Bekijk de test coverage in de [Action Summary](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).
