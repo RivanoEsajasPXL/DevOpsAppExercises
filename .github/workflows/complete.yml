@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies & test code
         run: npm install
-      - run: npm test -- --coverage
+      - run: npm test -- --coverage --coverageReporters=text --coverageReporters=cobertura
 
       - name: Code Coverage Summary
         uses: irongut/CodeCoverageSummary@v1.3.0
