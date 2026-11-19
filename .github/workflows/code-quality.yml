@@ -1,31 +1,25 @@
 name: Code-quality
 on:
   push:
-      branches:
-        - main
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-  code-quality:
-    runs-on: ubuntu-latest
-
+	
     steps:
-      - 
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v7
         with:
           repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
 
-      -
-        name: Setup Node.js environment
-        uses: actions/setup-node@v7.1.0
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7     
         with:
           node-version: '20'
 
-      -
-        name: check unit tests & report
+      - name: check unit tests & report
         run: |
           npm install
           npm test -- --coverage --coverageReporters=lcov
@@ -36,21 +30,30 @@ jobs:
           name: Unit tests
           coverage-path: coverage/lcov.info
 
-      -
-        name: Eslint voor JavaScript
+  code-quality:
+    runs-on: ubuntu-latest
+    # GEEN needs: hier, dus hij draait tegelijk met 'build'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7       
+        with:
+          repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7       
+        with:
+          node-version: '20'
+
+      # Eerst dependencies installeren (anders werkt lint/audit niet)
+      - name: Install dependencies
+        run: npm install
+
+      - name: Eslint voor JavaScript
         run: npm run lint
 
-      -
-        name: Formatting controle (Prettier)
+      - name: Formatting controle (Prettier)
         run: npm run format:check
 
-      -
-        name: Security Audit
-        run: npm audit
-
-  
-    
-     
-  
-					
-      
+      - name: Security Audit
+        run: npm audit 
