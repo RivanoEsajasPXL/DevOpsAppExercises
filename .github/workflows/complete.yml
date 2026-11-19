@@ -16,20 +16,18 @@ jobs:
         uses: actions/setup-node@v7.1.0
         with:
           node-version: '20'
+
+      - name: Bundle code into Zipfile
+        run: zip -r bundles.zip .
+
       - name: check unit tests & report
         run: |
           npm install
           npm install --save-dev jest-junit
-          npm test -- --ci --coverage coverageReporters=lcov --reporters=default --reporters=jest-junit
-          env:
+          npm test -- --ci --coverage --coverageReporters=lcov --reporters=default --reporters=jest-junit
+        env:
           JEST_JUNIT_OUTPUT_DIR: ./.out
           JEST_JUNIT_OUTPUT_NAME: junit.xml
-        
-
-      - name: Bundle code into Zipfile
-        run: zip -r bundles.zip .
-        
-          
       - name: Better Test Reports Action
         uses: mridang/action-test-reporter@v3.0.1
         with:
