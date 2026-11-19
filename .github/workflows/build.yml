@@ -1,0 +1,19 @@
+name: Build Example
+on:
+  push: 
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7.1.0
+
+      - name: Bundle code into Zipfile
+        run: zip -r bundles.zip .
