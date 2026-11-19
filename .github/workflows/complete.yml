@@ -23,8 +23,7 @@ jobs:
       - name: check unit tests & report
         run: |
           npm install
-          npm install --save-dev jest-junit
-          npm test -- --ci --coverage --coverageReporters=lcov 
+          npm test -- --coverage --coverageReporters=lcov 
           
       - name: Better Test Reports Action
         uses: mridang/action-test-reporter@v3.0.1
