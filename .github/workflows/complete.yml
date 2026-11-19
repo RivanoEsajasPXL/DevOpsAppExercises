@@ -32,5 +32,4 @@ jobs:
         uses: mridang/action-test-reporter@v3.0.1
         with:
           name: Unit tests
-          results-path: ./.out/junit.xml
           coverage-path: coverage/lcov.info
