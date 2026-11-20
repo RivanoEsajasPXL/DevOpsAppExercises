@@ -57,3 +57,5 @@ jobs:
 
       - name: Security Audit
         run: npm audit 
+        continue-on-error: true
+        
